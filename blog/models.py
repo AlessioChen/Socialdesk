@@ -8,4 +8,6 @@ class Post(models.Model):
     content = models.TextField()
     post_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE) # if a user is deleted also the post is deleted
-    
+
+    def __str__(self):
+        return self.title 

@@ -22,7 +22,7 @@ def register(request):
         form = UserRegisterForm()
       
     context = {
-        'form': form
+        'form': form,
     }
     return render(request, 'users/register.html', context)
 

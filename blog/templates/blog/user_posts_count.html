@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+    
+<ul class="list-group">
+    {% for p, value in users_post_count.items %}
+        <li class="list-group-item">
+            {{p}} wrote  {{ value }} posts
+        </li>  
+    {% endfor %}
+</ul>
+
+{% endblock content %}

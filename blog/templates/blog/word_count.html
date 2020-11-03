@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %} 
+
+{% block content%}
+    <div class="content-section">
+        <form method="GET"> {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Give me the word to count</legend>
+                <form  method="get">
+                    <input type="text" name="word">
+                    
+                    <input type="submit" value="Search" />
+                </form>
+            </fieldset>
+        </form>
+        {% if word %} 
+            The word "{{word}}" appearse {{count}} times in all posts content 
+        {% endif %}
+    </div>
+
+{% endblock %}

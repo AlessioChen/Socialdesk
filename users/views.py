@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from blog.views import Post 
+
 
 def register(request):
     #GET we disply the form 
@@ -29,3 +32,15 @@ def register(request):
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
+
+
+
+def user_detail(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    posts = Post.objects.filter(author = user)
+
+    context = {
+        'user': user, 
+        'posts': posts,
+    }
+    return render(request, 'users/user_detail.html', context)

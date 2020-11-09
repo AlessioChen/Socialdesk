@@ -18,7 +18,8 @@ DB = 0
 
 @login_required
 def home(request):
-
+    
+    
     error = False
     user_email = request.user.email
 
@@ -29,11 +30,11 @@ def home(request):
                                 db=DB,
                                 charset="utf-8", 
                                 decode_responses=True)
+  
     # Client last ip 
     last_ip = client.get(user_email)
     # Client current ip
     current_ip = request.META['REMOTE_ADDR']
-
     if current_ip != last_ip :
         client.set(user_email, current_ip)
         if current_ip != None: 
@@ -57,6 +58,10 @@ def new_post(request):
             
             if 'hack' in post.content: 
                 return HttpResponseNotFound('There is a no valid word in the post content!')
+            
+            # it writes the content on th Ropsten 
+            post.write_on_chain()
+            print('content written in Block successfuly')
             post.save()
             return redirect('blog-home')
     else:
@@ -97,7 +102,9 @@ def last_hour_posts(request):
             'title': p.title, 
             'content': p.content, 
             'post_date': p.post_date, 
-            'author': p.author.username
+            'author': p.author.username,
+            'hash': post.hash,
+            'transaction ID': post.txId,
         }
         data[p.id] = d 
 

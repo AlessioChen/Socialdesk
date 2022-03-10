@@ -1,12 +1,12 @@
 # Social desk
 
-Simple blog project written in Django using a SQLite database.  The content of each post are written on the Ropsten Ethereum Blockchain.
+A simple blog project is written in Django using an SQLite database.  The content of each post is written on the Ropsten Ethereum Blockchain.
 
 # How to run the project 
 
-Befor starting the project you need to install Redis server on you own machine. 
+Before starting the project you need to install the Redis server on your own machine. 
 
-To run the Django development sever, execute the following command: 
+To run the Django development server, execute the following command: 
 
 > `python manage.py runserver` 
 

@@ -8,26 +8,36 @@ from .models import Post
 from .forms import PostForm
 
 
-# Create your views here.
+# CONFIG FOR REDIS SERVER by paolo
+SERVER_IP = '127.0.0.1'
+SERVER_PORT = '6379'
+PASSWORD = ''
+DB = 0
 
 
 @login_required
 def home(request):
 
     error = False
-    client_ip = request.META['REMOTE_ADDR']
-    f = open("blog/latest_ip.txt", "r")
-    ip = f.read()
-    f.close()
+    user_email = request.user.email
 
-   
-    if ip != client_ip:
-        f = open("blog/latest_ip.txt", "w")
-        f.write(client_ip)
-        f.close()
-        error = True
-    
-        
+    # Create connection to the Redis DB
+    client = redis.StrictRedis(host=SERVER_IP, 
+                                port=SERVER_PORT, 
+                                password=PASSWORD,
+                                db=DB,
+                                charset="utf-8", 
+                                decode_responses=True)
+    # Client last ip 
+    last_ip = client.get(user_email)
+    # Client current ip
+    current_ip = request.META['REMOTE_ADDR']
+
+    if current_ip != last_ip :
+        client.set(user_email, current_ip)
+        if current_ip != None: 
+            error = True
+     
 
     context = {
         'posts': Post.objects.all(),
